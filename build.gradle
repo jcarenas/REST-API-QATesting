@@ -27,6 +27,7 @@ dependencies {
     implementation "net.serenity-bdd:serenity-core:${property('serenity.version')}"
     implementation "net.serenity-bdd:serenity-cucumber:${property('cucumber.version')}"
     implementation "org.json:json:20190722"
+    implementation "org.slf4j:slf4j-simple:1.7.30"
 }
 
 // Allow build to continue on test failure

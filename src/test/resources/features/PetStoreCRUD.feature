@@ -1,5 +1,5 @@
-Feature: Get available pets
-  description
+Feature: PetShop CRUD
+  Exercise to perform CRUD operations on the petStore
 
   Background:
     Given baseUri is https://petstore.swagger.io/v2/

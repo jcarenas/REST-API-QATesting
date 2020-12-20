@@ -177,7 +177,7 @@ public class ExampleDefinitions {
     }
 
     @And("^(?:the |)response should be empty$")
-    public void theResponseShouldBeEmpty() throws Throwable {
+    public void theResponseShouldBeEmpty() {
         exampleSteps.responseShouldBeEmpty();
     }
 

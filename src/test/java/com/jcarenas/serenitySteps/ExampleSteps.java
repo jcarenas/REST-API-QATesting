@@ -21,18 +21,13 @@ import static net.serenitybdd.rest.SerenityRest.rest;
 
 public class ExampleSteps {
 
-    private ServicesSupport servicesSupport = new ServicesSupport();
+    private final ServicesSupport servicesSupport = new ServicesSupport();
 
-    private RequestSpecification spec = rest().contentType(ContentType.JSON).when();
-
-    private RequestSpecification requestSpecification = rest();
+    private final RequestSpecification requestSpecification = rest();
 
     private String path;
     private String operation;
 
-    public String getPath() {
-        return path;
-    }
 
     public void setPath(String path) {
         this.path = path;
@@ -88,10 +83,6 @@ public class ExampleSteps {
     }
 
     /**
-     * STEPS ADDED IN ARCHETYPE V2
-     */
-
-    /**
      * Set URI to ResquestSpecification
      *
      * @param uri Name URI
@@ -108,18 +99,6 @@ public class ExampleSteps {
     @Step
     public void setThePath(String path) {
         this.setPath(path);
-    }
-
-    /**
-     * Set operation to ResquestSpecification
-     *
-     * @param operation Type operation
-     * @param user      User to apply operation
-     */
-    @Step
-    public void setOperationToUser(String operation, String user) {
-        this.setOperation(operation);
-        this.setPath(this.getPath() + "/" + user);
     }
 
     /**
@@ -194,20 +173,22 @@ public class ExampleSteps {
     @Step
     public void setBody(String body) {
         Assert.assertNotNull(body);
-        Assert.assertTrue(!body.isEmpty());
+        Assert.assertFalse(body.isEmpty());
         this.requestSpecification.body(body);
     }
 
     /**
-     * @param endPoint
-     * @param body
+     * Method to set body
+     *
+     * @param endPoint endPoint
+     * @param body body
      */
     @Step
     public void setBodyTo(String endPoint, String body) {
         Assert.assertNotNull(body);
-        Assert.assertTrue(!body.isEmpty());
+        Assert.assertFalse(body.isEmpty());
         Assert.assertNotNull(endPoint);
-        Assert.assertTrue(!endPoint.isEmpty());
+        Assert.assertFalse(endPoint.isEmpty());
         this.setPath(endPoint);
         this.requestSpecification.body(body);
     }
@@ -297,7 +278,7 @@ public class ExampleSteps {
         Response response = Serenity.sessionVariableCalled(Configuration.SESSION_RESPONSE);
         String body = response.getBody().toString();
         Assert.assertNotNull(body);
-        Assert.assertTrue(!body.isEmpty());
+        Assert.assertFalse(body.isEmpty());
     }
 
     /**
@@ -397,7 +378,7 @@ public class ExampleSteps {
      * Check if response body is equal to JSON file
      *
      * @param pathFile File path to check
-     * @throws Exception
+     * @throws Exception Exception
      */
     @Step
     public void responseShouldBeJsonInFile(String pathFile) throws Exception {
@@ -414,7 +395,7 @@ public class ExampleSteps {
     @Step
     public void responseShouldBeEmpty() {
         Response response = Serenity.sessionVariableCalled(Configuration.SESSION_RESPONSE);
-        Assert.assertTrue("Response should be empty", response.asString().equals("{}"));
+        Assert.assertEquals("Response should be empty", "{}", response.asString());
     }
 
     /**

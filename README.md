@@ -37,3 +37,42 @@ Details Here: https://johnfergusonsmart.com/running-cucumber-serenity-feature-fi
 # To share data between scenarios. In other case, session is reset each time. Default value: false
 serenity.maintain.session = true
 ```
+
+### Scenarios description
+- Scenario Outline: Get "available" pets - Assert expected result
+    * Endpoint: (GET) /pet/findByStatus where status is "available"
+    * Validations:
+        * the response code is 200
+        * the response body should be valid json
+        * the response header "Content-Type" should be "application/json"
+        * response json path element "available" must be positive
+    
+- Scenario Outline: Add new Pet - Assert new pet added
+    * Enpoint: (POST) /pet (new pet passed as a json in the body)
+    * Validations:
+        * the response code is 200
+        * response body should be valid json
+        * the response header "Content-Type" should be "application/json"
+        * The value for the "name" after put operation should be "Ada"
+        * response json path element status should be available
+    * At this point, petId generated is saved in session. This will be needed at the deletion moment.
+    
+- Scenario Outline: Update pet status to "sold" - Assert status updated
+    * Endpoint: (PUT) /pet (pet updated passed as a json in the body)
+    * Validations:
+        * the response code is 200
+        * response body should be valid json
+        * the response header "Content-Type" should be "application/json"
+        * The value for the "name" after put operation should be "Ada"
+        * response json path element status should be sold
+        
+- Scenario Outline: Delete this pet - Assert deletion
+    * Endpoint: (DELETE) /pet/{petId}
+    * Validations:
+        * the response code is 200
+        * response body should be valid json
+        * the response header "Content-Type" should be "application/json"
+        * the response with json path element "message" should be present in session variable "petId"
+        
+
+  

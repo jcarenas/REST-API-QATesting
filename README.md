@@ -44,7 +44,7 @@ serenity.maintain.session = true
     * Validations: available in feature file and checking SerenityBDD report
     
 - Scenario Outline: Add new Pet - Assert new pet added
-    * Enpoint: (POST) /pet (new pet passed as a json in the body)
+    * Endpoint: (POST) /pet (new pet passed as a json in the body)
     * Validations: available in feature file and checking SerenityBDD report
     * At this point, petId generated is saved in session as petId. This will be needed at the deletion moment.
     

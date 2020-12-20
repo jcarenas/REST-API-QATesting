@@ -41,38 +41,22 @@ serenity.maintain.session = true
 ### Scenarios description
 - Scenario Outline: Get "available" pets - Assert expected result
     * Endpoint: (GET) /pet/findByStatus where status is "available"
-    * Validations:
-        * the response code is 200
-        * the response body should be valid json
-        * the response header "Content-Type" should be "application/json"
-        * response json path element "available" must be positive
+    * Validations: available in feature file and checking SerenityBDD report
     
 - Scenario Outline: Add new Pet - Assert new pet added
     * Enpoint: (POST) /pet (new pet passed as a json in the body)
-    * Validations:
-        * the response code is 200
-        * response body should be valid json
-        * the response header "Content-Type" should be "application/json"
-        * The value for the "name" after put operation should be "Ada"
-        * response json path element status should be available
-    * At this point, petId generated is saved in session. This will be needed at the deletion moment.
+    * Validations: available in feature file and checking SerenityBDD report
+    * At this point, petId generated is saved in session as petId. This will be needed at the deletion moment.
     
 - Scenario Outline: Update pet status to "sold" - Assert status updated
     * Endpoint: (PUT) /pet (pet updated passed as a json in the body)
-    * Validations:
-        * the response code is 200
-        * response body should be valid json
-        * the response header "Content-Type" should be "application/json"
-        * The value for the "name" after put operation should be "Ada"
-        * response json path element status should be sold
-        
+    * Validations: available in feature file and checking SerenityBDD report
+    * At this point, petId for updated register is saved in session as well as petUpdatedId. This will be needed at the deletion moment.
+    
 - Scenario Outline: Delete this pet - Assert deletion
     * Endpoint: (DELETE) /pet/{petId}
-    * Validations:
-        * the response code is 200
-        * response body should be valid json
-        * the response header "Content-Type" should be "application/json"
-        * the response with json path element "message" should be present in session variable "petId"
+    * Validations: available in feature file and checking SerenityBDD report
         
-
-  
+- Scenario Outline: Delete pet updated - Assert deletion
+    * Endpoint: (DELETE) /pet/{petId}
+    * Validations: available in feature file and checking SerenityBDD report

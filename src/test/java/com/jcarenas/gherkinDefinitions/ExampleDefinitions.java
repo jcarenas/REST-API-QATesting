@@ -67,10 +67,10 @@ public class ExampleDefinitions {
         exampleSteps.setOperationToUser(operation, user);
     }
 
-    @And("^I set method to (get|GET|put|PUT|post|POST|delete|DELETE)$")
+    @And("^I set method to (get|GET|put|PUT|post|POST|delete|DELETE|patch|PATCH)$")
     public void iSetMethodToAUserByID(String operation) {
         if (operation.toLowerCase().equals("delete")) {
-            exampleSteps.setPathParameter();
+            exampleSteps.setPathParameterWithSessionValue("petId");
         }
         exampleSteps.setOperation(operation);
     }
@@ -159,7 +159,7 @@ public class ExampleDefinitions {
     }
 
     @And("^(?:the |)response json path element (.*) should be (.*)$")
-    public void responseJsonPathElementShouldBe(String jsonPath, int value) {
+    public void responseJsonPathElementShouldBe(String jsonPath, String value) {
         exampleSteps.responseJsonPathElementShouldBe(jsonPath, value);
     }
 
@@ -203,13 +203,13 @@ public class ExampleDefinitions {
         exampleSteps.clearRequestBody();
     }
 
-    @And("^I save pet id in SerenityBDD session$")
-    public void savePetIdInSerenityBDDSession() {
-        exampleSteps.saveBodyValueInSession();
+    @And("^I save (.*) in SerenityBDD (.*) session$")
+    public void savePetIdInSerenityBDDSession(String bodyJsonPath, String sessionKey) {
+        exampleSteps.saveBodyValueInSession(bodyJsonPath,sessionKey);
     }
 
     @And("^the response with json path element (.*) should be present in session variable (.*)$")
     public void theResponseWithJsonPathElementElementKeyShouldBePresentInSessionVariableSessionKey(String elementKey, String sessionKey) {
-        exampleSteps.checkElementDeleted(elementKey, sessionKey);
+        exampleSteps.checkElementPresentInSession(elementKey, sessionKey);
     }
 }

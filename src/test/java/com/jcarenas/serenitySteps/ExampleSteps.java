@@ -336,12 +336,12 @@ public class ExampleSteps {
      * @param value Value from field
      */
     @Step
-    public void responseJsonPathElementShouldBe(String key, int value) {
+    public void responseJsonPathElementShouldBe(String key, String value) {
         try {
             Response response = Serenity.sessionVariableCalled(Configuration.SESSION_RESPONSE);
             //Get the JsonPath object instance from the Response interface
             JsonPath jsonPathEvaluator = response.jsonPath();
-            int check = jsonPathEvaluator.get(key);
+            String check = jsonPathEvaluator.get(key);
 
             Assert.assertEquals("Response was " + jsonPathEvaluator.prettyPrint(), value, check);
         } catch (Exception e) {
@@ -451,24 +451,44 @@ public class ExampleSteps {
 
 
     /**
-     * Method to save an idPet in session
+     * Method to save a body value in session
+     *
+     * @param bodyJsonPath element to save in session
+     * @param sessionKey session key name
      */
     @Step
-    public void saveBodyValueInSession() {
+    public void saveBodyValueInSession(String bodyJsonPath, String sessionKey) {
         Response response = Serenity.sessionVariableCalled(Configuration.SESSION_RESPONSE);
-        String petId = response.getBody().jsonPath().getString("id");
-        Serenity.setSessionVariable("petId").to(petId);
-        Assert.assertNotNull(petId);
-        Assert.assertTrue(!petId.isEmpty());
+        String bodyJsonValue = response.getBody().jsonPath().getString(bodyJsonPath);
+
+        Serenity.getCurrentSession().put(sessionKey, bodyJsonValue);
+        Serenity.setSessionVariable(sessionKey).to(bodyJsonValue);
+
+        Assert.assertNotNull(bodyJsonValue);
+        Assert.assertFalse(bodyJsonValue.isEmpty());
     }
 
-    public void setPathParameter() {
-        requestSpecification.pathParam("petId", Serenity.getCurrentSession().get("petId").toString());
+    /**
+     * Method to set the value of a pathParameter
+     *
+     * @param pathParameter key of the pathParameter
+     */
+    @Step
+    public void setPathParameterWithSessionValue(String pathParameter) {
+        requestSpecification.pathParam(pathParameter, Serenity.sessionVariableCalled("petId"));
     }
 
-    public void checkElementDeleted(String elementKey, String sessionKey) {
+    /**
+     * Method to check if a value is present in session
+     *
+     * @param elementKey element to validate against session
+     * @param sessionKey session element to look for
+     */
+    @Step
+    public void checkElementPresentInSession(String elementKey, String sessionKey) {
         Response response = Serenity.sessionVariableCalled(Configuration.SESSION_RESPONSE);
-        String sessionValue = response.getBody().jsonPath().getString(sessionKey);
-        Assert.assertEquals(sessionValue, response.getBody().jsonPath().getString(elementKey));
+        String bodyValue = response.getBody().jsonPath().getString(elementKey);
+        String sessionValue = Serenity.sessionVariableCalled(sessionKey).toString();
+        Assert.assertEquals("\nResponse body: \n " + response.prettyPrint(), sessionValue, bodyValue);
     }
 }

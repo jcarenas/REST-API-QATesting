@@ -72,12 +72,7 @@ public class ExampleSteps {
 
         switch (operation.toLowerCase()) {
             case "get":
-                //currentValue = res.getBody().jsonPath().getString("data." + key);
-                currentValue = res.getBody().jsonPath().getString(key);
-                break;
             case "post":
-                currentValue = res.getBody().jsonPath().getString(key);
-                break;
             case "update":
             case "put":
                 currentValue = res.getBody().jsonPath().getString(key);

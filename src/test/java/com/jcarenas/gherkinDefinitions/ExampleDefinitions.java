@@ -11,6 +11,7 @@ import cucumber.api.java.en.When;
 import io.restassured.response.Response;
 import net.serenitybdd.core.Serenity;
 import net.thucydides.core.annotations.Steps;
+import org.openqa.selenium.remote.http.HttpMethod;
 
 import java.util.Calendar;
 
@@ -69,7 +70,7 @@ public class ExampleDefinitions {
 
     @And("^I set method to (get|GET|put|PUT|post|POST|delete|DELETE|patch|PATCH)$")
     public void iSetMethodToAUserByID(String operation) {
-        if (operation.toLowerCase().equals("delete")) {
+        if (operation.equalsIgnoreCase(HttpMethod.DELETE.name())) {
             exampleSteps.setPathParameterWithSessionValue("petId");
         }
         exampleSteps.setOperation(operation);

@@ -11,7 +11,6 @@ import cucumber.api.java.en.When;
 import io.restassured.response.Response;
 import net.serenitybdd.core.Serenity;
 import net.thucydides.core.annotations.Steps;
-import org.openqa.selenium.remote.http.HttpMethod;
 
 import java.util.Calendar;
 
@@ -63,16 +62,14 @@ public class ExampleDefinitions {
         exampleSteps.setThePath(path);
     }
 
-    @And("^I set method to (put|PUT|post|POST|delete|DELETE) a user by ID \"([^\"]*)\"$")
-    public void iSetMethodToAUserByID(String operation, String user) {
-        exampleSteps.setOperationToUser(operation, user);
+    @And("^I set method to (get|GET|put|PUT|post|POST)$")
+    public void iSetRequestMethod(String operation) {
+        exampleSteps.setOperation(operation);
     }
 
-    @And("^I set method to (get|GET|put|PUT|post|POST|delete|DELETE|patch|PATCH)$")
-    public void iSetMethodToAUserByID(String operation) {
-        if (operation.equalsIgnoreCase(HttpMethod.DELETE.name())) {
-            exampleSteps.setPathParameterWithSessionValue("petId");
-        }
+    @And("^I set method to (delete|DELETE) element with pathParameter (.*) and session id key (.*)$")
+    public void iSetDeletedRequestMethod(String operation, String pathParameter, String sessionKey) {
+        exampleSteps.setPathParameterWithSessionValue(pathParameter, sessionKey);
         exampleSteps.setOperation(operation);
     }
 
@@ -206,7 +203,7 @@ public class ExampleDefinitions {
 
     @And("^I save (.*) in SerenityBDD (.*) session$")
     public void savePetIdInSerenityBDDSession(String bodyJsonPath, String sessionKey) {
-        exampleSteps.saveBodyValueInSession(bodyJsonPath,sessionKey);
+        exampleSteps.saveBodyValueInSession(bodyJsonPath, sessionKey);
     }
 
     @And("^the response with json path element (.*) should be present in session variable (.*)$")

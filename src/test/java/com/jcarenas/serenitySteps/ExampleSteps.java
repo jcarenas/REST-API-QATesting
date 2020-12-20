@@ -449,7 +449,7 @@ public class ExampleSteps {
      * Method to save a body value in session
      *
      * @param bodyJsonPath element to save in session
-     * @param sessionKey session key name
+     * @param sessionKey   session key name
      */
     @Step
     public void saveBodyValueInSession(String bodyJsonPath, String sessionKey) {
@@ -464,13 +464,14 @@ public class ExampleSteps {
     }
 
     /**
-     * Method to set the value of a pathParameter
+     * Method to set the value of a pathParameter taking the value from session
      *
      * @param pathParameter key of the pathParameter
+     * @param sessionKey           session key
      */
     @Step
-    public void setPathParameterWithSessionValue(String pathParameter) {
-        requestSpecification.pathParam(pathParameter, Serenity.sessionVariableCalled("petId"));
+    public void setPathParameterWithSessionValue(String pathParameter, String sessionKey) {
+        requestSpecification.pathParam(pathParameter, Serenity.sessionVariableCalled(sessionKey));
     }
 
     /**
@@ -484,6 +485,6 @@ public class ExampleSteps {
         Response response = Serenity.sessionVariableCalled(Configuration.SESSION_RESPONSE);
         String bodyValue = response.getBody().jsonPath().getString(elementKey);
         String sessionValue = Serenity.sessionVariableCalled(sessionKey).toString();
-        Assert.assertEquals("\nResponse body: \n " + response.prettyPrint(), sessionValue, bodyValue);
+        Assert.assertEquals(sessionValue, bodyValue);
     }
 }

@@ -46,19 +46,20 @@ Feature: PetShop CRUD
     And I execute the request
     Then the response code is 200
     And response body should be valid json
+    And I save <bodyJsonPath> in SerenityBDD <sessionKey> session
     And the response header "Content-Type" should be "application/json"
     And The value for the "<key>" after put operation should be "<value>"
     And response json path element status should be sold
 
     Examples:
-      | path | key  | value |
-      | /pet | name | Ada   |
+      | path | key  | value | bodyJsonPath | sessionKey   |
+      | /pet | name | Ada   | id           | petUpdatedId |
 
   # Delete this pet. Assert deletion.
   Scenario Outline: Delete this pet - Assert deletion
     When I set Content-Type header to application/json
     And I set the path to "<path>"
-    And I set method to DELETE
+    And I set method to DELETE element with pathParameter <sessionKey> and session id key <sessionKey>
     And I execute the request
     Then the response code is 200
     And response body should be valid json
@@ -68,3 +69,19 @@ Feature: PetShop CRUD
     Examples:
       | path         | elementKey | sessionKey |
       | /pet/{petId} | message    | petId      |
+
+
+  # Delete pet record updated. Assert deletion.
+  Scenario Outline: Delete pet updated - Assert deletion
+    When I set Content-Type header to application/json
+    And I set the path to "<path>"
+    And I set method to DELETE element with pathParameter <pathParameter> and session id key <sessionKey>
+    And I execute the request
+    Then the response code is 200
+    And response body should be valid json
+    And the response header "Content-Type" should be "application/json"
+    And the response with json path element <elementKey> should be present in session variable <sessionKey>
+
+    Examples:
+      | path         | elementKey | sessionKey   | pathParameter |
+      | /pet/{petId} | message    | petUpdatedId | petId         |

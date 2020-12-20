@@ -60,3 +60,17 @@ serenity.maintain.session = true
 - Scenario Outline: Delete pet updated - Assert deletion
     * Endpoint: (DELETE) /pet/{petId}
     * Validations: available in feature file and checking SerenityBDD report
+    
+## Aspects taken into account
+##### Structure
+SerenityBDD structure
+##### Maintainability
+Refactored and simple code
+##### Re-usability
+Parameterized methods, objects and properties.
+##### Code quality
+Static code analysis
+##### Reliability
+Based on validations
+##### Logging and evidences management
+Assertion messages, SerenityBDD report and console detailed messages

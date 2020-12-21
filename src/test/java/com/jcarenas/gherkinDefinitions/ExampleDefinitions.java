@@ -1,13 +1,12 @@
 package com.jcarenas.gherkinDefinitions;
 
 import com.jcarenas.serenitySteps.ExampleSteps;
-import cucumber.api.DataTable;
 import cucumber.api.Scenario;
-import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import io.cucumber.java.Before;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import net.serenitybdd.core.Serenity;
 import net.thucydides.core.annotations.Steps;
@@ -19,33 +18,17 @@ public class ExampleDefinitions {
     @Steps
     private ExampleSteps exampleSteps;
 
-    /**
-     * Method executed before each scenario to start measuring execution times
-     *
-     * @param scenario Scenario object to check if the scenario contains the tag to write on InfluxDB
-     */
-    @Before
-    public void startInfluxdb(Scenario scenario) {
-        if (scenario.getSourceTagNames().contains("@influxdb"))
-            Serenity.setSessionVariable("startTime").to(Calendar.getInstance());
-    }
 
-
-    @Then("I should get (.*) status code")
+    @Then("I should get {int} status code")
     public void iShouldGetStatusCode(int expectedStatusCode) {
         exampleSteps.verifyStatusCode(expectedStatusCode);
     }
 
-    @And("^The value for the \"([^\"]*)\" after (get|post|update|delete|put) operation should be \"([^\"]*)\"$")
+    @And("The value for the \"([^\"]*)\" after (get|post|update|delete|put) operation should be \"([^\"]*)\"$")
     public void theValueForTheAfterGetOperationShouldBe(String key, String operation, String expectedValue) {
         Response res = Serenity.sessionVariableCalled("response");
         exampleSteps.verifyValueFromKey(res, operation, key, expectedValue);
     }
-
-
-    /**
-     * Arquetype BE V2
-     */
 
     @Given("^baseUri is (.*)$")
     public void baseUri(String uri) {
@@ -57,7 +40,7 @@ public class ExampleDefinitions {
         exampleSteps.setTheUri(uri);
     }
 
-    @And("^I set the path to \"([^\"]*)\"$")
+    @And("I set the path to {word}")
     public void iSetThePathTo(String path) {
         exampleSteps.setThePath(path);
     }
@@ -76,13 +59,7 @@ public class ExampleDefinitions {
     /**
      * Methods to set headers
      */
-
-    @And("^I set headers with$")
-    public void iSetHeadersWith(DataTable dataTable) {
-        exampleSteps.setHeaders(dataTable);
-    }
-
-    @Given("^I set (.*) header to (.*)$")
+    @Given("I set {word} header to {word}")
     public void header(String headerName, String headerValue) {
         exampleSteps.setHeader(headerName, headerValue);
     }
@@ -91,7 +68,7 @@ public class ExampleDefinitions {
      * Methods to set body
      */
 
-    @When("^I set (.*) to body$")
+    @When("I set {} to body")
     public void setToBody(String body) {
         exampleSteps.setBody(body);
     }
@@ -111,19 +88,9 @@ public class ExampleDefinitions {
         exampleSteps.sendRequestWithJson(jsonString);
     }
 
-    @And("^I set body with$")
-    public void iSetBodyWithTable(DataTable dataTable) {
-        exampleSteps.setBodyWithTable(dataTable);
-    }
-
     @And("^I set query parameter (.*) to (.*)$")
     public void iSetQueryParameterTo(String value, String key) {
         exampleSteps.setQueryParameter(key, value);
-    }
-
-    @And("^I set query parameter$")
-    public void iSetQueryParameter(DataTable dataTable) {
-        exampleSteps.setQueryParameter(dataTable);
     }
 
 
@@ -136,7 +103,7 @@ public class ExampleDefinitions {
         exampleSteps.executeRequest();
     }
 
-    @And("^(?:the |)response header \"([^\"]*)\" should be \"([^\"]*)\"$")
+    @And("the response header {word} should be {word}")
     public void theResponseHeaderShouldBe(String headerName, String headerValue) {
         exampleSteps.responseHeaderShouldBe(headerName, headerValue);
     }
@@ -156,12 +123,12 @@ public class ExampleDefinitions {
         exampleSteps.responseContentTypeShouldBe(contentType);
     }
 
-    @And("^(?:the |)response json path element (.*) should be (.*)$")
+    @And("response json path element {word} should be {word}")
     public void responseJsonPathElementShouldBe(String jsonPath, String value) {
         exampleSteps.responseJsonPathElementShouldBe(jsonPath, value);
     }
 
-    @And("^(?:the |)response json path element (.*) must be positive$")
+    @And("response json path element {word} must be positive")
     public void responseJsonPathElementShouldBePositive(String jsonPath) {
         exampleSteps.responseJsonPathElementShouldBePositive(jsonPath);
     }
@@ -186,7 +153,7 @@ public class ExampleDefinitions {
         exampleSteps.responseCollectionShouldBeJson(jsonResponseString);
     }
 
-    @Then("^(?:the |)response code is (.*)$")
+    @Then("the response code is {int}")
     public void theResponseCodeIs(int responseCode) {
         exampleSteps.verifyStatusCode(responseCode);
     }
@@ -201,7 +168,7 @@ public class ExampleDefinitions {
         exampleSteps.clearRequestBody();
     }
 
-    @And("^I save (.*) in SerenityBDD (.*) session$")
+    @And("I save {word} in SerenityBDD {word} session")
     public void savePetIdInSerenityBDDSession(String bodyJsonPath, String sessionKey) {
         exampleSteps.saveBodyValueInSession(bodyJsonPath, sessionKey);
     }

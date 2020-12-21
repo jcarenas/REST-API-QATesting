@@ -2,7 +2,6 @@ package com.jcarenas.serenitySteps;
 
 import com.jcarenas.config.Configuration;
 import com.jcarenas.support.ServicesSupport;
-import cucumber.api.DataTable;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -14,7 +13,6 @@ import org.junit.Assert;
 
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static net.serenitybdd.rest.SerenityRest.rest;
@@ -102,20 +100,6 @@ public class ExampleSteps {
     }
 
     /**
-     * Add http headers
-     *
-     * @param dataTable Datatable with values (header name and header value)
-     */
-    @Step
-    public void setHeaders(DataTable dataTable) {
-        List<List<String>> data = dataTable.raw();
-        //Get values from datatable
-        String headerName = data.get(0).get(1);
-        String headerValue = data.get(0).get(1);
-        this.headers(headerName, headerValue);
-    }
-
-    /**
      * Add an http header
      *
      * @param headerName  Header name
@@ -181,7 +165,7 @@ public class ExampleSteps {
      * Method to set body
      *
      * @param endPoint endPoint
-     * @param body body
+     * @param body     body
      */
     @Step
     public void setBodyTo(String endPoint, String body) {
@@ -205,22 +189,6 @@ public class ExampleSteps {
     }
 
     /**
-     * Set a request body with Datatable
-     *
-     * @param dataTable Datatable with fields/values
-     */
-    @Step
-    public void setBodyWithTable(DataTable dataTable) {
-        List<List<String>> data = dataTable.raw();
-        Map<String, Object> map = new HashMap<>();
-        for (List<String> list : data) {
-            map.put(list.get(0), list.get(1));
-        }
-        JSONObject body = new JSONObject(map);
-        this.requestSpecification.body(body.toMap());
-    }
-
-    /**
      * Add a list of query parameter to the url
      *
      * @param key   Name of field
@@ -231,20 +199,6 @@ public class ExampleSteps {
         Map<String, Object> map = new HashMap<>();
         map.put(key, value);
         JSONObject body = new JSONObject(map);
-        this.requestSpecification.body(body.toMap());
-    }
-
-    /**
-     * Add a list of query parameter to the url
-     *
-     * @param dataTable DataTable of parameters
-     */
-    @Step
-    public void setQueryParameter(DataTable dataTable) {
-        JSONObject body = new JSONObject();
-        for (Map<String, String> data : dataTable.asMaps(String.class, String.class)) {
-            body.put(data.get("param"), data.get("value"));
-        }
         this.requestSpecification.body(body.toMap());
     }
 
@@ -448,7 +402,7 @@ public class ExampleSteps {
      * Method to set the value of a pathParameter taking the value from session
      *
      * @param pathParameter key of the pathParameter
-     * @param sessionKey           session key
+     * @param sessionKey    session key
      */
     @Step
     public void setPathParameterWithSessionValue(String pathParameter, String sessionKey) {
